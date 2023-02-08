@@ -1,6 +1,7 @@
 package slices
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -60,4 +61,24 @@ func TestSub(t *testing.T) {
 			t.Errorf("Sub() = %v, want %v", got, []string{})
 		}
 	})
+}
+
+func TestSort(t *testing.T) {
+	type student struct {
+		id   int
+		name string
+	}
+
+	s1 := student{id: 1, name: "zhaoda"}
+	s2 := student{id: 2, name: "liuer"}
+	s3 := student{id: 3, name: "zhansan"}
+	s4 := student{id: 4, name: "lisi"}
+	s5 := student{id: 5, name: "wangwu"}
+
+	ss := []student{s3, s2, s4, s1, s5}
+	Sort(ss, func(a, b student) bool {
+		return strings.Compare(a.name, b.name) < 0
+	})
+
+	t.Logf("output: %+v", ss)
 }

@@ -1,9 +1,11 @@
 package maps
 
-func Keys[K comparable, V any](m map[K]V) []K {
-	var ret []K
+import "github.com/mingo-chen/collection-util/sets"
+
+func Keys[K comparable, V any](m map[K]V) sets.Set[K] {
+	var ret = sets.New[K]()
 	for k := range m {
-		ret = append(ret, k)
+		ret.Add(k)
 	}
 
 	return ret

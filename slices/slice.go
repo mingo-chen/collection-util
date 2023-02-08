@@ -1,5 +1,7 @@
 package slices
 
+import "sort"
+
 // Contains 判断src中是否包含target
 func Contains[T comparable](src []T, target T) bool {
 	for _, e := range src {
@@ -36,4 +38,28 @@ func Sub[T comparable](src, dst []T) []T {
 	}
 
 	return ret
+}
+
+type sortable[T comparable] struct {
+	data []T
+	cmp  func(a, b T) bool
+}
+
+func (st sortable[T]) Len() int {
+	return len(st.data)
+}
+
+func (st sortable[T]) Less(i, j int) bool {
+	a, b := st.data[i], st.data[j]
+	return st.cmp(a, b)
+}
+
+func (st sortable[T]) Swap(i, j int) {
+	st.data[i], st.data[j] = st.data[j], st.data[i]
+}
+
+// Sort 对任意slice进行排序
+func Sort[T comparable](src []T, cmp func(a, b T) bool) {
+	var sorter = &sortable[T]{data: src, cmp: cmp}
+	sort.Sort(sorter)
 }
